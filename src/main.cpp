@@ -41,7 +41,7 @@ int main()
 	PID throttlepid;
 	// TODO: Initialize the steeringpid variable.
 	steeringpid.Init(0.01f, 0.001f, 1.f);
-	throttlepid.Init(0.1f, 0.001, 1.f);
+	throttlepid.Init(0.05f, 0.005, 1.1f);
 
 	h.onMessage( [&steeringpid, &throttlepid]( uWS::WebSocket <uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode )
 				 {
@@ -66,7 +66,7 @@ int main()
 								 double const steer_value = steeringpid.GetControl();
 								 steeringpid.Twiddle();
 
-								 static double const targetSpeed = 15;
+								 double const targetSpeed = 15 + (1 - fabs(steer_value)) * 5;
 								 double const speedCTE = speed - targetSpeed;
 								 throttlepid.UpdateError(speedCTE);
 								 double const throttle_amount = throttlepid.GetControl();

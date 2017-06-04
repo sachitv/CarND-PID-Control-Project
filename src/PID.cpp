@@ -18,10 +18,10 @@ PID::PID()
 		  , Ki( 0.f )
 		  , Kd( 0.f )
 		  , lastCTE( 0.f )
-		  , tolerance( 0.2f )
-		  , lastdpD( 0.25f )
-		  , lastdpI( 0.25f )
-		  , lastdpP( 0.25f )
+		  , tolerance( 0.1f )
+		  , lastdpD( 0.3f )
+		  , lastdpI( 0.01f )
+		  , lastdpP( 0.1f )
 		  , twiddleStage( TwiddleStage::ZeroRuns )
 		  , twiddlerParam( TwiddlerParam::P )
 		  , bestErr( numeric_limits<double>::max())
@@ -61,7 +61,14 @@ double PID::GetControl() const
 
 	return amount;
 }
-
+/*
+ * Since I can't do this like we do in the Udacity class, I use 2 state variables:
+ * twiddlerParam = Keeps track of which parameter is currently being tuned
+ * twiddleStage = Keeps track of which stage we are in. Since our base algorithm has 2 move functions
+ *  Stage Zero (ZeroRuns) - Before First Move
+ *  Stage One (FirstRun) - After First Move, Before Second Move
+ *  Stage Two (SecondRun) - After Second Move
+ */
 void PID::Twiddle()
 {
 	double const error = totalError;

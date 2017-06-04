@@ -71,12 +71,17 @@ public:
 	/*
 	* Calculate the total PID error.
 	*/
-	double GetSteering() const;
+	double GetControl() const;
 
 	/*
 	 * Recalculate Parameters
 	 */
 	void Twiddle();
+
+	/*
+	 * Get number of steps
+	 */
+	int GetSteps() const;
 };
 
 #endif /* PID_H */

@@ -53,7 +53,7 @@ void PID::UpdateError( double cte )
 	}
 }
 
-double PID::GetSteering() const
+double PID::GetControl() const
 {
 	double amount = -(Kp * p_error) - (Kd * d_error) - (Ki * i_error);
 	amount = max( -1.0, amount );
@@ -213,5 +213,10 @@ void PID::Twiddle()
 			}
 		}
 	}
+}
+
+int PID::GetSteps() const
+{
+	return numDatas;
 }
 
